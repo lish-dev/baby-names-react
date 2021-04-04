@@ -1,21 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
+import BabyNameIndex from "./BabyNameIndex";
 import SearchBar from "./SearchBar.js";
 
 const SearchInfo = (props) => {
   const { BabyNameIndex } = props;
-  BabyNameIndex.sort(function (a, b) {
-    var nameA = a.name.toLowerCase(),
-      nameB = b.name.toLowerCase();
-    if (nameA < nameB)
-      //sort string ascending
-      return -1;
-    if (nameA > nameB) return 1;
-    return 0; //default return value (no sorting)
-  });
+  const [searchTerm, setSearchTerm] = useState("");
+ BabyNameIndex.sort(function (a, b) {
+   var nameA = a.name.toLowerCase(),
+     nameB = b.name.toLowerCase();
+   if (nameA < nameB) return -1;
+   if (nameA > nameB) return 1;
+   return 0;
+ });
+
+ function handleChange(event) {
+   setSearchTerm(event.target.value);
+ }
+   const results = BabyNameIndex.filter((baby) => (baby.name).toLowerCase().includes(searchTerm.toLowerCase()));
   return (
     <div className="search">
       <div className="page-header">
-        <h4 className="text-left">Search Names</h4>
+        <h4 className="text-centre">Search Names</h4>
       </div>
       <div className="row search-wrapper">
         <div className="col">
@@ -23,6 +28,7 @@ const SearchInfo = (props) => {
             <label htmlFor="babyName">Baby name</label>
             <div className="search-row">
               <input
+                onChange={handleChange}
                 type="text"
                 id="babyName"
                 className="form-control"
@@ -31,12 +37,41 @@ const SearchInfo = (props) => {
               <SearchBar />
             </div>
           </form>
-          {BabyNameIndex.map((baby) => (
-            <h3 key={baby.id}>{baby.name}</h3>
-          ))}
+          <div>
+            {results.map((baby) => (
+              <div key={baby.id}>
+                {baby.sex === "f" ? (
+                  <div
+                    style={{
+                      backgroundColor: "yellow",
+                      width: 200,
+                      margin: "auto",
+                    }}
+                  >
+                    <h3 style={{ color: "grey" }} key={baby.id}>
+                      {baby.name}
+                    </h3>
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      backgroundColor: "grey",
+                      width: 200,
+                      margin: "auto",
+                    }}
+                  >
+                    <h3 style={{ color: "white" }} key={baby.id}>
+                      {baby.name}
+                    </h3>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
   );
+
 };
 export default SearchInfo;
