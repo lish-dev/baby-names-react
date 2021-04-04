@@ -1,15 +1,15 @@
 import React from "react";
 
 import "./App.css";
-import { BabyNamesData } from "./BabyNamesData.json";
-import SearchInfo from "./SearchInfo.js";
+import  BabyNameIndex from "./BabyNameIndex";
+import SearchInfo from "./SearchInfo";
 
 function App() {
   return (
     <div className="App">
       <div>
-        <searchInfo babyNames={BabyNamesData} />
-        <SearchInfo />
+        <searchInfo />
+        <SearchInfo BabyNameIndex={BabyNameIndex} />
       </div>
     </div>
   );
