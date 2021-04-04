@@ -1,6 +1,6 @@
-import React from 'react';
 
-const BabyNameIndex =  
+
+export const BabyNameIndex =  
     [
         {
           "id": 0,
