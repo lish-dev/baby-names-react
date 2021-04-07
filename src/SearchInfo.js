@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-const SearchInfo = (props, { gender, setGender }) => {
-  const { BabyNameIndex } = props;
+const SearchInfo = (props) => {
+  const BabyNameIndex = props.BabyNameIndex;
   const [searchTerm, setSearchTerm] = useState("");
+  const [results, setResults] = useState(BabyNameIndex);
   BabyNameIndex.sort(function (a, b) {
     var nameA = a.name.toLowerCase(),
       nameB = b.name.toLowerCase();
@@ -9,16 +10,20 @@ const SearchInfo = (props, { gender, setGender }) => {
     if (nameA > nameB) return 1;
     return 0;
   });
-  function handleChange(event) {
+  const handleChange = (event) => {
     setSearchTerm(event.target.value);
-  }
-  const results = BabyNameIndex.filter((baby) =>
-    baby.name.toLowerCase().includes(searchTerm.toLowerCase())
-  ).filter((baby) => (gender ? baby.sex === gender : true));
+    const query = event.target.value;
+    const filteredResults = BabyNameIndex.filter((baby) =>
+      baby.name.toLowerCase().includes(query.toLowerCase())
+    );
+    setResults(filteredResults);
+  };
   const filterGender = (baby) => {
     console.log(baby);
-    // issues on this line
-    // setGender(baby);
+    let babyArray = [...BabyNameIndex];
+    if (baby !== "mf")
+      babyArray = BabyNameIndex.filter((babyObj) => babyObj.sex === baby);
+    setResults(babyArray);
   };
   return (
     <div className="searchBox">
